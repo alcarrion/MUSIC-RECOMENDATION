@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
-const cancionSchema = new mongoose.Schema({
+let cancionSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
   artista: { type: String, required: true },
   urlYoutube: { type: String, required: true },
@@ -11,7 +11,7 @@ const cancionSchema = new mongoose.Schema({
       fecha: { type: Date, default: Date.now },
     },
   ],
-  valoraciones: { type: [Number], default: [] }, // Para las estrellas
+  valoraciones: { type: [Number], default: [] }, 
 });
 
 module.exports = mongoose.model('Cancion', cancionSchema);

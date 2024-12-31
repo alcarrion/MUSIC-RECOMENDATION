@@ -1,236 +1,364 @@
-/* styles.css */
-:root {
-  --primary-color: #7c3aed;
-  --secondary-color: #e879f9;
-  --background-color: #f5f3ff;
-  --text-color: #1f2937;
-  --card-background: white;
+/* Estilos generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, var(--background-color), #fff);
-  margin: 0;
-  min-height: 100vh;
-  color: var(--text-color);
+  background-color: #f8f9fa;
+  line-height: 1.6;
 }
 
+/* Header */
 header {
-  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-  color: white;
-  padding: 2rem;
+  background: linear-gradient(45deg, #de45ba, #672ac2);
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 40px 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(147, 112, 219, 0.2);
 }
 
+header h1 {
+  color: white;
+  font-size: 2.5em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+
+
+/* Main container */
 main {
   max-width: 800px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.form-section, .songs-section, .random-song-section {
-  background: var(--card-background);
-  border-radius: 12px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
+/* Secciones */
+section {
+  background: rgb(249, 249, 249);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.form-section:hover, .songs-section:hover {
-  transform: translateY(-2px);
+h2 {
+  margin-bottom: 20px;
+  color: #333;
 }
 
-form {
+/* Formulario de agregar canción */
+#form-agregar-cancion {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 15px;
+
 }
 
-input {
-  padding: 0.8rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.2s;
+#form-agregar-cancion input {
+  padding: 12px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
-input:focus {
-  border-color: var(--primary-color);
+#form-agregar-cancion input:focus {
   outline: none;
+  border-color: #9370DB;
+  box-shadow: 0 0 0 2px rgba(147, 112, 219, 0.2);
 }
 
-button {
-  background: var(--primary-color);
+#form-agregar-cancion button {
+  padding: 12px;
+  background: linear-gradient(45deg, #de45ba, #672ac2);
   color: white;
-  padding: 0.8rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.2s;
+  font-weight: 500;
 }
 
-button:hover {
-  background: var(--secondary-color);
-}
-
-.song-card {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-/* Sistema de estrellas */
-.rating {
+/* Lista de canciones */
+.song-list {
   display: flex;
-  gap: 0.25rem;
-  margin: 1rem 0;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.star {
-  color: #d1d5db;
-  cursor: pointer;
-  font-size: 1.5rem;
-  transition: color 0.2s;
+.cancion {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background: white;
 }
 
-.star.active {
-  color: #fbbf24;
+.card {
+  padding: 15px;
 }
 
-/* Contador de votos y botones de acción */
+.song-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
 .song-actions {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
-.vote-count {
+/* Botones y acciones */
+.btn-primary {
+  background: #9370DB;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: var(--primary-color);
-  font-weight: 600;
-}
-
-.comment-section {
-  margin-top: 1rem;
-}
-
-.comment-input {
-  width: 100%;
-  min-height: 80px;
-  padding: 0.8rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-  resize: vertical;
-}
-
-.rating {
-  display: flex;
   gap: 5px;
-  padding: 10px 0;
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+  text-decoration: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.votos {
+  color: #414950;
+  font-size: 14px;
+}
+
+/* Comentarios */
+.comentarios {
+  border-top: 1px solid #dee2e6;
+  padding: 15px;
+}
+
+.comentarios-titulo {
+  margin-bottom: 15px;
+}
+
+.comentarios-titulo h4 {
+  font-size: 16px;
+  color: #333;
+}
+
+.comentario-individual {
+  background: #f8f9fa;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.comentario-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.comentario-input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+.comentario-boton {
+  background: #9370DB;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Sistema de valoración */
+.rating {
+  padding: 0 15px 15px 15px;
+  display: flex;
+  gap: 3px;
 }
 
 .rating span {
-  font-size: 24px;
-  transition: all 0.2s ease;
+  font-size: 20px;
+  color: #dee2e6;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
-.rating span:hover {
-  transform: scale(1.2);
-}
-
+.rating span:hover,
+.rating span.hover,
 .rating span.active {
-  color: #FFD700 !important; /* Dorado/amarillo */
-  text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  color: #ffd700;
+  transform: scale(1.1);
 }
 
 .rating-value {
   margin-left: 10px;
-  font-size: 14px;
-  color: #666;
+  color: #6c757d;
+  font-weight: 500;
 }
 
-.cancion-card {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-}
-
-.cancion-card:hover {
-  transform: translateY(-2px);
-}
-
-.cancion-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.acciones {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.votos-contador {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: #6b46c1;
-  font-weight: bold;
-}
-
-.btn-accion {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+/* botones */
+.btn-primary, .btn-danger, .btn-secondary, .comentario-boton {
+  transition: all 0.2s ease;
   padding: 8px 15px;
-  border-radius: 20px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+}
+
+
+.btn-primary:hover {
+  background: #8360cb;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(147, 112, 219, 0.2);
+}
+
+.btn-danger:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+}
+
+
+/* Sección de canción aleatoria */
+#btn-aleatoria {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(45deg, #9370DB, #8360cb);
+  color: white;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s;
+  margin-bottom: 15px;
+  transition: all 0.2s ease;
 }
 
-.btn-votar {
-  background: #6b46c1;
-  color: white;
+
+
+/* Mejorar los comentarios */
+.comentario-individual {
+  background: #f8f9fa;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
 
-.btn-votar:hover {
-  background: #553c9a;
-}
-
-.btn-youtube {
-  background: #ff0000;
-  color: white;
-}
-
-.btn-eliminar {
-  background: #dc2626;
-  color: white;
-}
-
-.comentarios {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #e5e7eb;
+.comentario-individual:hover {
+  background: #f1f3f5;
+  transform: translateX(5px);
 }
 
 .comentario-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
+
+.comentario-input:focus {
+  border-color: #9370DB;
+  box-shadow: 0 0 0 2px rgba(147, 112, 219, 0.2);
+  outline: none;
+}
+
+/* Animación para cuando se agrega un nuevo comentario */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.comentario-individual {
+  animation: slideIn 0.3s ease;
+}
+
+
+.card {
+  padding: 15px;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.song-card {
+  padding: 15px;
+  background: #ffffff;
+  border-radius: 6px;
+  margin-top: 15px;
+}
+
+.song-card a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #dc3545;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  main {
+      padding: 10px;
+  }
+  
+  .song-actions {
+      flex-wrap: wrap;
+  }
+  
+  .comentario-form {
+      flex-direction: column;
+  }
+}
+
+.votos {
+  color: #7d848b;
+  font-size: 14px;
+  padding: 4px 8px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+

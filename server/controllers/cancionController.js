@@ -1,33 +1,16 @@
-const mongoose = require('mongoose');
+let Cancion = require('../models/cancion');
 
-// Definición del esquema de la canción
-const cancionSchema = new mongoose.Schema({
-  nombre: { type: String, required: true },
-  artista: { type: String, required: true },
-  urlYoutube: { type: String, required: true },
-  votos: { type: Number, default: 0 },
-  comentarios: [
-    {
-      texto: { type: String, required: true },
-      fecha: { type: Date, default: Date.now },
-    },
-  ],
-  valoraciones: { type: [Number], default: [] }, // Para las estrellas
-});
-
-const Cancion = mongoose.model('Cancion', cancionSchema); // Modelo de canción
-
-// Obtener todas las canciones
 exports.obtenerCanciones = async (req, res) => {
   try {
     const canciones = await Cancion.find();
     res.json(canciones);
   } catch (error) {
-    res.status(500).json({ mensaje: 'Error al obtener las canciones.', error });
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al obtener las canciones.' });
   }
 };
 
-// Agregar un comentario
+
 exports.agregarComentario = async (req, res) => {
   const { id } = req.params;
   const { texto } = req.body;
@@ -47,11 +30,12 @@ exports.agregarComentario = async (req, res) => {
 
     res.status(201).json(cancion);
   } catch (error) {
-    res.status(500).json({ mensaje: 'Error al agregar el comentario.', error });
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al agregar el comentario.' });
   }
 };
 
-// Agregar valoración
+
 exports.agregarValoracion = async (req, res) => {
   const { id } = req.params;
   const { valor } = req.body;
@@ -71,11 +55,12 @@ exports.agregarValoracion = async (req, res) => {
 
     res.status(200).json(cancion);
   } catch (error) {
-    res.status(500).json({ mensaje: 'Error al agregar la valoración.', error });
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al agregar la valoración.' });
   }
 };
 
-// Agregar una nueva canción
+
 exports.agregarCancion = async (req, res) => {
   const { nombre, artista, urlYoutube } = req.body;
 
@@ -88,7 +73,7 @@ exports.agregarCancion = async (req, res) => {
   }
 };
 
-// Votar por una canción
+
 exports.votarCancion = async (req, res) => {
   const { id } = req.params;
 
@@ -100,13 +85,15 @@ exports.votarCancion = async (req, res) => {
 
     cancion.votos += 1;
     await cancion.save();
+
     res.status(200).json(cancion);
   } catch (error) {
-    res.status(500).json({ mensaje: 'Error al votar por la canción.', error });
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al votar por la canción.' });
   }
 };
 
-// Obtener una canción aleatoria
+
 exports.cancionAleatoria = async (req, res) => {
   try {
     const canciones = await Cancion.find();
@@ -117,11 +104,12 @@ exports.cancionAleatoria = async (req, res) => {
     const indiceAleatorio = Math.floor(Math.random() * canciones.length);
     res.json(canciones[indiceAleatorio]);
   } catch (error) {
-    res.status(500).json({ mensaje: 'Error al obtener una canción aleatoria.', error });
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al obtener una canción aleatoria.' });
   }
 };
 
-// Eliminar una canción
+
 exports.eliminarCancion = async (req, res) => {
   const { id } = req.params;
 
@@ -133,6 +121,7 @@ exports.eliminarCancion = async (req, res) => {
 
     res.status(200).json({ mensaje: 'Canción eliminada correctamente.' });
   } catch (error) {
-    res.status(500).json({ mensaje: 'Error al eliminar la canción.', error });
+    console.error(error);
+    res.status(500).json({ mensaje: 'Error al eliminar la canción.' });
   }
 };

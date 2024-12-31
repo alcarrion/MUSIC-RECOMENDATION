@@ -1,4 +1,4 @@
-// URL base del servidor
+
 const API_URL = 'http://localhost:3000/api/canciones';
 
 // Referencias a elementos del DOM
@@ -18,7 +18,7 @@ const mostrarError = (mensaje) => {
   alert(mensaje);
 };
 
-// Agregar una nueva canción
+// Función para agregar una nueva canción
 formAgregar.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -67,41 +67,33 @@ const obtenerCanciones = async () => {
     listaCanciones.innerHTML = '';
     canciones.forEach((cancion) => {
       const div = document.createElement('div');
-      div.classList.add('cancion-card');
+      div.classList.add('cancion');
       div.innerHTML = `
-        <div class="cancion-header">
-          <h3><strong>${cancion.nombre}</strong> - ${cancion.artista}</h3>
-          <div class="acciones">
-            <div class="votos-contador">
-              <i class="fas fa-thumbs-up"></i>
-              <span>${cancion.votos}</span>
-            </div>
-            <button data-id="${cancion._id}" class="btn-accion btn-votar">
-              <i class="fas fa-heart"></i>
-              Votar
+        <div class="card">
+          <h3 class="song-title">${cancion.nombre} - ${cancion.artista}</h3>
+          <div class="song-actions">
+            <button data-id="${cancion._id}" class="btn-votar btn-primary">
+              <i class="fas fa-heart"></i> Votar
             </button>
-            <a href="${cancion.urlYoutube}" target="_blank" class="btn-accion btn-youtube">
-              <i class="fab fa-youtube"></i>
-              Ver
+            <span class="votos">Votos: ${cancion.votos || 0}</span>
+            <a href="${cancion.urlYoutube}" target="_blank" class="btn-ver btn-danger">
+              <i class="fab fa-youtube"></i> Ver
             </a>
-            <button data-id="${cancion._id}" class="btn-accion btn-eliminar">
+            <button data-id="${cancion._id}" class="btn-eliminar btn-secondary">
               <i class="fas fa-trash"></i>
             </button>
           </div>
         </div>
-        <div class="rating-section">
-          ${renderEstrellas(cancion._id, cancion.valoracionPromedio || 0).outerHTML}
-        </div>
-        <div class="comentarios">
-          <h4><i class="fas fa-comments"></i> Comentarios</h4>
-          ${renderComentarios(cancion.comentarios, cancion._id).outerHTML}
-        </div>
       `;
+
+      // Agregar secciones de comentarios y valoraciones
+      div.appendChild(renderComentarios(cancion.comentarios, cancion._id));
+      div.appendChild(renderEstrellas(cancion._id, cancion.valoracionPromedio || 0));
 
       listaCanciones.appendChild(div);
     });
 
-    // Asignar eventos
+    // Asignar eventos a los botones de votar y eliminar
     document.querySelectorAll('.btn-votar').forEach((button) => {
       button.addEventListener('click', () => votarCancion(button.dataset.id));
     });
@@ -113,6 +105,7 @@ const obtenerCanciones = async () => {
     mostrarError('Error al obtener las canciones.');
   }
 };
+
 
 // Votar por una canción
 const votarCancion = async (id) => {
@@ -160,7 +153,8 @@ btnAleatoria.addEventListener('click', async () => {
     const cancion = await response.json();
     cancionAleatoria.innerHTML = `
       <p><strong>${cancion.nombre}</strong> - ${cancion.artista}</p>
-      <a href="${cancion.urlYoutube}" target="_blank">Ver en YouTube</a>
+      <a href="${cancion.urlYoutube}" target="_blank">
+      <i class="fab fa-youtube"></i> Ver</a>
     `;
   } catch (error) {
     mostrarError(error.message);
@@ -188,34 +182,55 @@ const agregarComentario = async (id, texto) => {
 };
 
 // Añadir un formulario para comentarios
-const renderComentarios = (comentarios = [], id) => {
+const renderComentarios = (comentarios, id) => {
   const comentariosDiv = document.createElement('div');
-  comentariosDiv.className = 'comentarios-container';
+  comentariosDiv.className = 'comentarios';
 
-  comentarios.forEach((comentario) => {
-    const comentarioP = document.createElement('p');
-    comentarioP.innerHTML = `<i class="fas fa-comment"></i> ${comentario.texto}`;
-    comentariosDiv.appendChild(comentarioP);
-  });
+  // Título de la sección de comentarios con icono
+  const comentariosTitulo = document.createElement('div'); // Usamos un div para el flexbox
+  comentariosTitulo.className = 'comentarios-titulo'; // Clase para estilos
+  comentariosTitulo.innerHTML = `<h4><i class="fas fa-comments"></i> Comentarios</h4>`; // Icono y título
+  comentariosDiv.appendChild(comentariosTitulo);
+
+  if (comentarios && comentarios.length > 0) { // Comprobar si hay comentarios
+      comentarios.forEach((comentario) => {
+          const comentarioDiv = document.createElement('div'); // Div para cada comentario
+          comentarioDiv.className = 'comentario-individual';
+          comentarioDiv.innerHTML = `<p><i class="fa fa-comment"></i> ${comentario.texto}</p>`; // Icono de respuesta
+          comentariosDiv.appendChild(comentarioDiv);
+      });
+  } else {
+      const sinComentarios = document.createElement('p');
+      sinComentarios.textContent = 'Aún no hay comentarios. ¡Sé el primero!';
+      comentariosDiv.appendChild(sinComentarios);
+  }
 
   const formulario = document.createElement('form');
-  formulario.className = 'comentario-form';
-  formulario.innerHTML = `
-    <input type="text" class="comentario-input" placeholder="Escribe un comentario..." required>
-    <button type="submit" class="btn-accion btn-enviar">
-      <i class="fas fa-paper-plane"></i>
-      Enviar
-    </button>
-  `;
+  formulario.className = 'comentario-form'; // Clase para estilos
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = 'Escribe un comentario...';
+  input.className = 'comentario-input'; // Clase para estilos
+
+  const boton = document.createElement('button');
+  boton.textContent = 'Enviar';
+  boton.className = 'comentario-boton'; // Clase para estilos
+
+  formulario.appendChild(input);
+  formulario.appendChild(boton);
 
   formulario.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const input = formulario.querySelector('input');
-    agregarComentario(id, input.value);
-    input.value = '';
+      e.preventDefault();
+      if (input.value.trim() !== "") { // Evitar comentarios vacíos
+          agregarComentario(id, input.value);
+          input.value = '';
+      } else {
+          alert("Por favor, escribe un comentario antes de enviar.");
+      }
   });
 
   comentariosDiv.appendChild(formulario);
+
   return comentariosDiv;
 };
 
@@ -244,33 +259,57 @@ const renderEstrellas = (id, valoracionActual) => {
   const estrellasDiv = document.createElement('div');
   estrellasDiv.className = 'rating';
 
+  const ratingContainer = document.createElement('div');
+  ratingContainer.style.display = 'flex';
+  ratingContainer.style.alignItems = 'center';
+
+  const valorSpan = document.createElement('span');
+  valorSpan.className = 'rating-value';
+  valorSpan.textContent = valoracionActual ? `${valoracionActual.toFixed(1)}/5` : '';
+
+  const estrellas = [];
+
   [1, 2, 3, 4, 5].forEach((estrella) => {
     const estrellaSpan = document.createElement('span');
     estrellaSpan.textContent = '★';
-    estrellaSpan.style.cursor = 'pointer';
+    estrellas.push(estrellaSpan);
 
     if (estrella <= valoracionActual) {
       estrellaSpan.classList.add('active');
     }
 
+    // Efecto hover
     estrellaSpan.addEventListener('mouseover', () => {
-      estrellasDiv.querySelectorAll('span').forEach((nodo, index) => {
-        nodo.style.color = index < estrella ? '#FFD700' : 'gray';
+      estrellas.forEach((e, index) => {
+        if (index < estrella) {
+          e.classList.add('hover');
+        }
       });
     });
 
     estrellaSpan.addEventListener('mouseout', () => {
-      estrellasDiv.querySelectorAll('span').forEach((nodo, index) => {
-        nodo.style.color = index < valoracionActual ? '#FFD700' : 'gray';
+      estrellas.forEach(e => {
+        e.classList.remove('hover');
       });
     });
 
     estrellaSpan.addEventListener('click', async () => {
       try {
         await agregarValoracion(id, estrella);
-        estrellasDiv.querySelectorAll('span').forEach((nodo, index) => {
-          nodo.classList.toggle('active', index < estrella);
+        estrellas.forEach((e, index) => {
+          if (index < estrella) {
+            e.classList.add('active');
+          } else {
+            e.classList.remove('active');
+          }
         });
+        valorSpan.textContent = `${estrella}/5`;
+        
+        // Añadir un pequeño efecto de confirmación
+        estrellaSpan.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+          estrellaSpan.style.transform = '';
+        }, 200);
       } catch (error) {
         mostrarError('Error al valorar');
       }
@@ -279,8 +318,10 @@ const renderEstrellas = (id, valoracionActual) => {
     estrellasDiv.appendChild(estrellaSpan);
   });
 
-  return estrellasDiv;
-};
+  ratingContainer.appendChild(estrellasDiv);
+  ratingContainer.appendChild(valorSpan);
 
+  return ratingContainer;
+};
 // Inicializar
 obtenerCanciones();
