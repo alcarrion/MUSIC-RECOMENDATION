@@ -38,22 +38,24 @@ Sigue estos pasos para ejecutar el proyecto en tu máquina:
 
    ```bash
    git clone https://github.com/alcarrion/MUSIC-RECOMMENDATION.git
-   
+
+2. **Dirigete a la ruta**  
+   ```bash
    cd .\MUSIC-RECOMENDATION\server\
 
-2. **Instalar dependencias**
+3. **Instalar dependencias**
     Instala los paquetes necesarios ejecutando:
     ```bash
     npm install
 
-3. **Revisa la conexión a la base de datos**
+4. **Revisa la conexión a la base de datos**
     Asegúrate de que tu servidor MongoDB esté corriendo localmente
 
-4. **Ejecuta la aplicación**
+5. **Ejecuta la aplicación**
     ```bash
     npm run dev
 
-5. **Abrir en el navegador**
+6. **Abrir en el navegador**
     Para abrir en el navegador puedes dar ctrl+click en http://localhost:3000 
     
 
