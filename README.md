@@ -39,7 +39,7 @@ Sigue estos pasos para ejecutar el proyecto en tu máquina:
    ```bash
    git clone https://github.com/alcarrion/MUSIC-RECOMMENDATION.git
 
-2. **Dirigete a la ruta**  
+2. **Dirígete a la ruta**  
    ```bash
    cd .\MUSIC-RECOMENDATION\server\
 
